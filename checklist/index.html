@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agentic AI Health Data Accountability Checklist</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; max-width: 780px; margin: 40px auto; padding: 0 20px; line-height: 1.55; color: #222; }
+  h1 { font-size: 1.6em; }
+  .disclaimer { background: #fff8e6; border: 1px solid #e6d28a; padding: 14px 18px; border-radius: 6px; font-size: 0.95em; margin-bottom: 30px; }
+  .category { margin-bottom: 28px; border-top: 1px solid #ddd; padding-top: 18px; }
+  .category h2 { font-size: 1.15em; margin-bottom: 4px; }
+  .category p.desc { color: #555; font-size: 0.92em; margin-top: 0; }
+  label { display: block; margin: 10px 0; cursor: pointer; }
+  input[type="checkbox"] { margin-right: 8px; }
+  button { background: #1a1a1a; color: #fff; border: none; padding: 10px 18px; font-size: 1em; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+  button:hover { background: #333; }
+  #results { margin-top: 30px; padding: 18px; border-radius: 6px; background: #f4f4f4; display: none; }
+  #results.show { display: block; }
+  .gap { color: #a33; font-weight: bold; }
+  .ok { color: #2a7a2a; }
+</style>
+</head>
+<body>
+
+<h1>Agentic AI &mdash; Health Data Accountability Self-Assessment</h1>
+
+<div class="disclaimer">
+  <strong>What this is:</strong> a self-assessment heuristic to help you think through accountability
+  and privacy risk in an agentic AI system that processes health data. It reflects the analysis in the
+  accompanying research project's <code>/docs</code> folder.
+  <br><br>
+  <strong>What this is not:</strong> this is not a certified compliance tool, legal advice, or a substitute
+  for a proper legal or security audit. It does not guarantee compliance with any law. No claims are made
+  about its adoption or accuracy in any specific deployment &mdash; use it as a prompt for questions worth
+  asking, not as a verdict.
+</div>
+
+<form id="checklistForm">
+
+  <div class="category" data-category="Attribution clarity">
+    <h2>1. Attribution clarity</h2>
+    <p class="desc">Can you point to a specific human or organisation responsible for each action the agent takes?</p>
+    <label><input type="checkbox"> A named organisation (not just "the AI system") is documented as the Data Fiduciary / controller for this deployment.</label>
+    <label><input type="checkbox"> There is a written record of who determined the agent's operating parameters (its "means" of processing).</label>
+    <label><input type="checkbox"> If the agent selects a new recipient or data field at runtime that wasn't pre-configured, this is logged and attributable to a specific decision point, not just to "the system."</label>
+  </div>
+
+  <div class="category" data-category="Lawful basis">
+    <h2>2. Lawful basis for each processing action</h2>
+    <p class="desc">Not just "do we have consent" &mdash; but does the specific action the agent takes fall within what was consented to, or a specific legal exception?</p>
+    <label><input type="checkbox"> Consent (or another lawful basis) was obtained for the general purpose the agent serves.</label>
+    <label><input type="checkbox"> The specific recipients/destinations the agent might disclose data to were named or reasonably foreseeable at the time consent was given.</label>
+    <label><input type="checkbox"> If the agent can act under an emergency or legitimate-use exception, someone has checked that the exception's actual legal conditions (e.g. genuine threat to life, not routine convenience) are met each time it's invoked.</label>
+  </div>
+
+  <div class="category" data-category="Sensitivity handling">
+    <h2>3. Sensitivity handling</h2>
+    <p class="desc">Health data inferences (e.g. a mental health flag, a diagnosis) often carry more sensitivity than the raw data they're drawn from.</p>
+    <label><input type="checkbox"> Inferences the agent generates (not just data it reads) are identified as health data and handled with the same care as source records.</label>
+    <label><input type="checkbox"> There is a heightened review step for any AI-generated inference before it is acted on or shared, regardless of whether local law requires one.</label>
+  </div>
+
+  <div class="category" data-category="Human oversight quality">
+    <h2>4. Human oversight quality</h2>
+    <p class="desc">A human "in the loop" is not the same as a human with meaningful control. (See: meaningful human control, /docs.)</p>
+    <label><input type="checkbox"> The human reviewing the agent's actions has enough time and information to meaningfully evaluate them, not just click "approve."</label>
+    <label><input type="checkbox"> The human reviewer can explain, in plain terms, why the agent took a specific action &mdash; not just what it did.</label>
+    <label><input type="checkbox"> There is a real, tested way for a human to intervene or halt the agent mid-task, not just after the fact.</label>
+  </div>
+
+  <div class="category" data-category="Breach and incident readiness">
+    <h2>5. Breach and incident readiness</h2>
+    <p class="desc">Can you actually detect when the agent has done something it shouldn't have?</p>
+    <label><input type="checkbox"> Logs capture enough detail to reconstruct why the agent took a specific action, after the fact.</label>
+    <label><input type="checkbox"> There is a defined process for someone to review agent logs periodically, not only after a complaint.</label>
+    <label><input type="checkbox"> An unauthorised disclosure by the agent would be recognisable as an incident, not just absorbed as "normal operation."</label>
+  </div>
+
+  <button type="button" onclick="showResults()">See my results</button>
+</form>
+
+<div id="results"></div>
+
+<script>
+function showResults() {
+  const categories = document.querySelectorAll('.category');
+  let output = '<h2>Summary</h2><p>This is a prompt for further review, not a score or certification.</p>';
+  categories.forEach(cat => {
+    const name = cat.getAttribute('data-category');
+    const boxes = cat.querySelectorAll('input[type="checkbox"]');
+    const total = boxes.length;
+    let checked = 0;
+    boxes.forEach(b => { if (b.checked) checked++; });
+    const gaps = total - checked;
+    if (gaps === 0) {
+      output += `<p class="ok">&#10003; ${name}: no gaps flagged (${checked}/${total}).</p>`;
+    } else {
+      output += `<p class="gap">&#9888; ${name}: ${gaps} of ${total} items unaddressed &mdash; worth reviewing.</p>`;
+    }
+  });
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = output;
+  resultsDiv.classList.add('show');
+}
+</script>
+
+</body>
+</html>
