@@ -11,7 +11,8 @@ Agentic AI systems don't just respond to instructions — they plan, retrieve da
 ## What's in this repository
 
 - **`/docs`** — the legal analysis: the accountability chain, competing liability models, a clause-by-clause stress test against India's Digital Personal Data Protection Act 2023 and Rules 2025, and comparative notes against the GDPR and EU AI Act.
-- **`/checklist`** — a simple, self-contained webpage for assessing an agentic AI system's accountability and privacy risk when it handles health data.
+- **`/checklist`** — a simple, self-contained webpage for assessing an agentic AI system's accountability and privacy risk when it handles health data. **[Try it live](https://advabel.github.io/agentic-ai-health-data-accountability/checklist/)**
+
 
 ## What this project is NOT
 
