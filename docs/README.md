@@ -6,5 +6,6 @@ version of material developed for the accompanying LL.M. thesis.
 
 ## Contents
 - [DPDP Act Stress Test](dpdp-act-stress-test.md) — traces one agentic AI scenario clause-by-clause through the Digital Personal Data Protection Act 2023 and Rules 2025
+  
 - [Liability Models and Meaningful Human Control](liability-models-and-meaningful-human-control.md) — evaluates five competing liability models and adapts meaningful human control as a testable standard for health-data oversight
 
