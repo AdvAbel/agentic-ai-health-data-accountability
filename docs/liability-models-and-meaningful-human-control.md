@@ -1,145 +1,327 @@
-# Liability Models and Meaningful Human Control for Agentic AI
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liability Models and Meaningful Human Control for Agentic AI</title>
+<meta name="description" content="Five competing liability models for agentic AI, and meaningful human control adapted as a testable standard for health-data oversight.">
 
-**Status:** Draft — part of ongoing LL.M. research. Content will be revised as the thesis develops.
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
 
-## Purpose
+<style>
+  :root{
+    --paper:      #ECEAE1;
+    --paper-deep: #E3E0D3;
+    --ink:        #1C1B17;
+    --ink-soft:   #4A4A42;
+    --muted:      #726F63;
+    --navy:       #29394F;
+    --accent:     #7C2E2E;
+    --hairline:   #C9C4B2;
+    --radius:     2px;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --sans:  "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html{ background:var(--paper); }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--serif); font-size:17px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:var(--navy); text-decoration-color:var(--hairline); text-underline-offset:3px; }
+  a:hover{ color:var(--accent); text-decoration-color:var(--accent); }
+  .page{ max-width:840px; margin:0 auto; padding:0 24px 80px; }
 
-The [DPDP Act stress test](dpdp-act-stress-test.md) in this repository shows
-that Indian law can usually identify *someone* liable — Section 8(1) pins
-responsibility on the Data Fiduciary regardless of whether an AI agent's
-autonomy contributed to the harm. That answers "is anyone liable?" It does
-not answer the harder question this document addresses: **how should
-responsibility be distributed across the actors who built, deployed, and
-supervised the system**, and **what standard should be used to judge
-whether the human oversight in that chain was real rather than nominal?**
+  header{
+    display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+    padding:28px 0 20px; font-family:var(--sans); font-size:13px; color:var(--muted);
+  }
+  header a{ color:var(--muted); }
+  header a:hover{ color:var(--accent); }
+  .crumb .sep{ margin:0 6px; color:var(--hairline); }
+  .crumb .current{ color:var(--ink-soft); }
 
-## Five competing models
+  .sheet{ border-left:3px solid var(--accent); padding-left:28px; }
+  @media (max-width:600px){ .sheet{ border-left-width:2px; padding-left:16px; } }
 
-Each model below answers "who should bear responsibility" differently.
-None is adopted wholesale in this project's analysis; they are evaluated
-against each other and against the scenarios in the DPDP stress test.
+  h1{
+    font-family:var(--serif); font-weight:700;
+    font-size:clamp(26px, 4vw, 34px); line-height:1.2;
+    letter-spacing:-0.01em; margin:8px 0 10px;
+  }
+  .status-line{
+    font-family:var(--sans); font-size:13.5px; font-style:italic;
+    color:var(--muted); margin:0 0 34px;
+  }
 
-**1. Developer responsibility.**
-The actor who designed the underlying model or agent architecture bears
-responsibility, on the theory that design choices (how the agent selects
-actions, what constraints it operates under) are the proximate cause of
-harmful autonomous behaviour. The obvious problem: the developer typically
-has no visibility into, or control over, how a specific deployer configures
-and uses the system. Kolt (2025) and O'Keefe and others (2025) discuss
-design-stage interventions (law-following agent design) that bear on this
-model without fully resolving the control-vs-foreseeability tension.
+  article h2{
+    font-family:var(--serif); font-weight:600; font-size:22px;
+    margin:40px 0 14px; letter-spacing:-0.005em;
+  }
+  article h3{
+    font-family:var(--serif); font-weight:600; font-size:17px;
+    margin:22px 0 8px; color:var(--ink);
+  }
+  article > h2:first-of-type{ margin-top:0; }
+  article p{ max-width:66ch; color:var(--ink-soft); margin:0 0 14px; font-size:17px; }
 
-**2. Deployer responsibility.**
-The organisation that chooses to deploy the system (the hospital, in the
-health-data context) bears responsibility, since it selected the tool and
-put it into a live environment. This aligns with how Section 8(1) of the
-DPDP Act already allocates responsibility to the Data Fiduciary. The
-problem is symmetrical to Model 1: a deployer may have no meaningful way
-to anticipate an agent's behaviour in a novel situation, particularly
-where the agent's decision-making is not fully interpretable even to its
-own developer.
+  article ul.criteria{ max-width:66ch; margin:0 0 14px; padding-left:0; list-style:none; }
+  article ul.criteria li{ position:relative; padding-left:20px; margin:0 0 10px; color:var(--ink-soft); }
+  article ul.criteria li::before{ content:"—"; position:absolute; left:0; color:var(--accent); }
+  article ul.criteria li strong{ color:var(--ink); }
 
-**3. Data Fiduciary responsibility (the DPDP Act's default).**
-A variant of Model 2 specific to data protection law: responsibility
-attaches to whoever determines the purpose and means of processing. As
-the stress test shows, this model works cleanly until the agent itself
-starts determining *means* at runtime — at which point the model's
-foundational assumption (a person fixes means in advance) no longer
-holds, and the statute has no answer for who "stands in" for the agent's
-autonomous choices.
+  .entry{ display:flex; gap:16px; padding:18px 0; }
+  .entry + .entry{ border-top:1px dashed var(--hairline); }
+  .entry .mark{
+    font-family:var(--sans); font-weight:600; font-size:14px; color:var(--accent);
+    padding-top:2px; flex:0 0 auto; width:22px;
+  }
+  .entry .body{ flex:1 1 auto; min-width:0; }
+  .entry .body p{ margin:0; max-width:60ch; }
+  .entry .body p strong{ color:var(--ink); }
+  .entry.favoured{ background:var(--paper-deep); border-radius:var(--radius); padding:18px 16px; margin:0 -16px; }
+  .entry.favoured + .entry{ border-top:none; }
 
-**4. Human supervisor responsibility.**
-Responsibility falls on the specific individual overseeing the agent's
-operation. This has intuitive appeal but risks producing what this
-project calls **human-in-the-loop theatre**: a human is technically
-present in the workflow but lacks the time, information, or authority to
-meaningfully evaluate what the agent is doing. A supervisor asked to
-approve batch outputs from an agent that has already processed thousands
-of records is a legal fiction of oversight, not oversight in substance.
+  .sources{ font-family:var(--serif); font-size:15px; color:var(--muted); }
+  .sources ul{ margin:0; padding-left:0; list-style:none; max-width:66ch; }
+  .sources li{ padding-left:1.1em; text-indent:-1.1em; margin:0 0 8px; }
 
-**5. Distributed accountability (the model this project favours).**
-Rather than asking "who is responsible," this model asks how
-responsibility should be distributed across the AI lifecycle — design,
-deployment configuration, ongoing supervision, and audit — with each
-actor answerable for the parts of the outcome they could reasonably
-foresee and control. Bottomley and Thaldar (2023) survey comparable
-multi-actor liability structures (product liability, principal-agent,
-strict liability) in a healthcare-AI context and reach a broadly similar
-conclusion: no single-actor model maps well onto a multi-stage AI
-pipeline. Matthias's (2004) concept of the "responsibility gap" is the
-theoretical starting point for why single-actor models fail here — as
-autonomous systems become less predictable to their own designers,
-fault-based liability aimed at any one actor becomes harder to justify.
+  .closing-note{
+    font-family:var(--serif); font-style:italic; font-size:15px;
+    color:var(--muted); margin-top:30px; max-width:66ch;
+  }
 
-## Meaningful human control as the evaluative standard
+  .backlink{ font-family:var(--sans); font-size:13.5px; margin:44px 0 0; }
 
-Whichever model is used, Models 2–4 all depend on an assumption that
-human involvement in the pipeline is *meaningful*. This project adopts
-**meaningful human control (MHC)** as the standard for testing that
-assumption, adapted from its origin outside AI-accountability discourse.
+  footer{
+    padding:30px 0 10px; font-family:var(--sans); font-size:13.5px; color:var(--muted); line-height:1.7;
+    border-top:1px solid var(--hairline); margin-top:20px;
+  }
+  footer p{ margin:0 0 8px; max-width:70ch; }
+  footer a{ color:var(--muted); text-decoration-color:var(--hairline); }
+  footer a:hover{ color:var(--accent); text-decoration-color:var(--accent); }
+</style>
+</head>
+<body>
 
-**Origin.** The phrase was coined by the NGO Article 36 in a 2013
-briefing on UK policy toward fully autonomous weapons, arguing that
-lethal decisions should never be delegated without meaningful human
-control over the decision. Horowitz and Scharre's 2015 CNAS primer
-further develops the concept as a set of design and process requirements
-rather than a single test. The concept later migrated into general
-AI-governance discourse. **This project's contribution is adapting it
-specifically to health-data processing, not originating the concept.**
+<div class="page">
 
-**Why nominal involvement isn't enough.** A human "in the loop" is not
-the same as a human with meaningful control. Consider: an agent processes
-50,000 patient records, flags 500 as high-risk, and generates a report; a
-supervising clinician receives the report and clicks "approve all."
-Human involvement, technically, is present. Meaningful control is not —
-the clinician had no realistic way to evaluate 500 individual
-determinations.
+  <header>
+    <nav class="crumb">
+      <a href="../">agentic-ai-health-data-accountability</a>
+      <span class="sep">/</span>
+      <a href="index.html">docs</a>
+      <span class="sep">/</span>
+      <span class="current">liability-models-and-meaningful-human-control</span>
+    </nav>
+    <a href="https://github.com/AdvAbel/agentic-ai-health-data-accountability" target="_blank" rel="noopener">Source on GitHub</a>
+  </header>
 
-**Operational criteria adapted for the health-data context.** For MHC to
-be more than an aspiration, it needs to be testable. This project applies
-the following criteria (used directly in this repository's `/checklist`
-tool):
+  <div class="sheet">
 
-- **Information adequacy** — does the supervising human have enough
-  context, in a form they can actually process, to evaluate the agent's
-  action?
-- **Ability to intervene** — can a human act *before* the consequence
-  occurs, not only review it afterward?
-- **Ability to override** — is there a real, tested mechanism to reverse
-  or halt an agent's action, or only a theoretical one?
-- **Auditability** — can a human reconstruct, after the fact, why the
-  agent took a specific action?
-- **Foreseeability** — could a reasonably diligent supervisor have
-  anticipated this category of action, or was it outside any plausible
-  expectation set at deployment?
+    <h1>Liability Models and Meaningful Human Control for Agentic AI</h1>
+    <p class="status-line">Draft — part of ongoing LL.M. research. Content will be revised as the thesis develops.</p>
 
-## How this feeds into the distributed model
+    <article>
 
-Under Model 5, these MHC criteria become the mechanism for allocating
-responsibility across the lifecycle rather than a single-actor test: a
-developer is answerable for foreseeability failures baked into system
-design; a deployer for information-adequacy and override-mechanism
-failures in how the system was configured; a supervisor for intervention
-failures within their actual authority. This lifecycle-stage mapping is
-developed further as an accountability matrix elsewhere in this project's
-research.
+      <h2>Purpose</h2>
+      <p>
+        The <a href="dpdp-act-stress-test.html">DPDP Act stress test</a> in
+        this repository shows that Indian law can usually identify
+        <em>someone</em> liable — Section 8(1) pins responsibility on the
+        Data Fiduciary regardless of whether an AI agent's autonomy
+        contributed to the harm. That answers "is anyone liable?" It does not
+        answer the harder question this document addresses: how should
+        responsibility be distributed across the actors who built, deployed,
+        and supervised the system, and what standard should be used to judge
+        whether the human oversight in that chain was real rather than
+        nominal?
+      </p>
 
-## Sources
+      <h2>Five competing models</h2>
+      <p>
+        Each model below answers "who should bear responsibility" differently.
+        None is adopted wholesale in this project's analysis; they are
+        evaluated against each other and against the scenarios in the DPDP
+        stress test.
+      </p>
 
-- Article 36, *Killer Robots: UK Government Policy on Fully Autonomous
-  Weapons* (2013) — origin of "meaningful human control"
-- Horowitz M C and Scharre P, *Meaningful Human Control in Weapon
-  Systems: A Primer* (CNAS Working Paper, 2015)
-- Matthias A, "The Responsibility Gap: Ascribing Responsibility for the
-  Actions of Learning Automata" (2004) *Ethics and Information Technology*
-- Kolt N, "Governing AI Agents" (2025) *Notre Dame Law Review*
-- O'Keefe C and others, "Law-Following AI: Designing AI Agents to Obey
-  Human Laws" (2025) *Fordham Law Review*
-- Bottomley D and Thaldar D, "Liability for Harm Caused by AI in
-  Healthcare: An Overview of the Core Legal Concepts" (2023) *Frontiers
-  in Pharmacology*
-- Digital Personal Data Protection Act 2023 (India), s 8(1)
+      <div class="entry">
+        <span class="mark">1</span>
+        <div class="body">
+          <p><strong>Developer responsibility.</strong>
+          The actor who designed the underlying model or agent architecture
+          bears responsibility, on the theory that design choices (how the
+          agent selects actions, what constraints it operates under) are the
+          proximate cause of harmful autonomous behaviour. The obvious
+          problem: the developer typically has no visibility into, or control
+          over, how a specific deployer configures and uses the system. Kolt
+          (2025) and O'Keefe and others (2025) discuss design-stage
+          interventions (law-following agent design) that bear on this model
+          without fully resolving the control-vs-foreseeability tension.</p>
+        </div>
+      </div>
 
-*This document is a condensed summary for a public research portfolio.
-Full doctrinal argument and citation apparatus appear in the accompanying
-thesis.*
+      <div class="entry">
+        <span class="mark">2</span>
+        <div class="body">
+          <p><strong>Deployer responsibility.</strong>
+          The organisation that chooses to deploy the system (the hospital,
+          in the health-data context) bears responsibility, since it selected
+          the tool and put it into a live environment. This aligns with how
+          Section 8(1) of the DPDP Act already allocates responsibility to
+          the Data Fiduciary. The problem is symmetrical to Model 1: a
+          deployer may have no meaningful way to anticipate an agent's
+          behaviour in a novel situation, particularly where the agent's
+          decision-making is not fully interpretable even to its own
+          developer.</p>
+        </div>
+      </div>
+
+      <div class="entry">
+        <span class="mark">3</span>
+        <div class="body">
+          <p><strong>Data Fiduciary responsibility (the DPDP Act's default).</strong>
+          A variant of Model 2 specific to data protection law: responsibility
+          attaches to whoever determines the purpose and means of processing.
+          As the stress test shows, this model works cleanly until the agent
+          itself starts determining <em>means</em> at runtime — at which point
+          the model's foundational assumption (a person fixes means in
+          advance) no longer holds, and the statute has no answer for who
+          "stands in" for the agent's autonomous choices.</p>
+        </div>
+      </div>
+
+      <div class="entry">
+        <span class="mark">4</span>
+        <div class="body">
+          <p><strong>Human supervisor responsibility.</strong>
+          Responsibility falls on the specific individual overseeing the
+          agent's operation. This has intuitive appeal but risks producing
+          what this project calls <strong>human-in-the-loop theatre</strong>:
+          a human is technically present in the workflow but lacks the time,
+          information, or authority to meaningfully evaluate what the agent
+          is doing. A supervisor asked to approve batch outputs from an agent
+          that has already processed thousands of records is a legal fiction
+          of oversight, not oversight in substance.</p>
+        </div>
+      </div>
+
+      <div class="entry favoured">
+        <span class="mark">5</span>
+        <div class="body">
+          <p><strong>Distributed accountability (the model this project favours).</strong>
+          Rather than asking "who is responsible," this model asks how
+          responsibility should be distributed across the AI lifecycle —
+          design, deployment configuration, ongoing supervision, and audit —
+          with each actor answerable for the parts of the outcome they could
+          reasonably foresee and control. Bottomley and Thaldar (2023) survey
+          comparable multi-actor liability structures (product liability,
+          principal-agent, strict liability) in a healthcare-AI context and
+          reach a broadly similar conclusion: no single-actor model maps well
+          onto a multi-stage AI pipeline. Matthias's (2004) concept of the
+          "responsibility gap" is the theoretical starting point for why
+          single-actor models fail here — as autonomous systems become less
+          predictable to their own designers, fault-based liability aimed at
+          any one actor becomes harder to justify.</p>
+        </div>
+      </div>
+
+      <h2>Meaningful human control as the evaluative standard</h2>
+      <p>
+        Whichever model is used, Models 2–4 all depend on an assumption that
+        human involvement in the pipeline is <em>meaningful</em>. This project
+        adopts meaningful human control (MHC) as the standard for testing
+        that assumption, adapted from its origin outside AI-accountability
+        discourse.
+      </p>
+
+      <h3>Origin</h3>
+      <p>
+        The phrase was coined by the NGO Article 36 in a 2013 briefing on UK
+        policy toward fully autonomous weapons, arguing that lethal decisions
+        should never be delegated without meaningful human control over the
+        decision. Horowitz and Scharre's 2015 CNAS primer further develops
+        the concept as a set of design and process requirements rather than a
+        single test. The concept later migrated into general AI-governance
+        discourse. This project's contribution is adapting it specifically to
+        health-data processing, not originating the concept.
+      </p>
+
+      <h3>Why nominal involvement isn't enough</h3>
+      <p>
+        A human "in the loop" is not the same as a human with meaningful
+        control. Consider: an agent processes 50,000 patient records, flags
+        500 as high-risk, and generates a report; a supervising clinician
+        receives the report and clicks "approve all." Human involvement,
+        technically, is present. Meaningful control is not — the clinician
+        had no realistic way to evaluate 500 individual determinations.
+      </p>
+
+      <h3>Operational criteria adapted for the health-data context</h3>
+      <p>
+        For MHC to be more than an aspiration, it needs to be testable. This
+        project applies the following criteria (used directly in this
+        repository's <a href="../checklist/">checklist</a> tool):
+      </p>
+      <ul class="criteria">
+        <li><strong>Information adequacy</strong> — does the supervising human have enough context, in a form they can actually process, to evaluate the agent's action?</li>
+        <li><strong>Ability to intervene</strong> — can a human act before the consequence occurs, not only review it afterward?</li>
+        <li><strong>Ability to override</strong> — is there a real, tested mechanism to reverse or halt an agent's action, or only a theoretical one?</li>
+        <li><strong>Auditability</strong> — can a human reconstruct, after the fact, why the agent took a specific action?</li>
+        <li><strong>Foreseeability</strong> — could a reasonably diligent supervisor have anticipated this category of action, or was it outside any plausible expectation set at deployment?</li>
+      </ul>
+
+      <h2>How this feeds into the distributed model</h2>
+      <p>
+        Under Model 5, these MHC criteria become the mechanism for allocating
+        responsibility across the lifecycle rather than a single-actor test:
+        a developer is answerable for foreseeability failures baked into
+        system design; a deployer for information-adequacy and
+        override-mechanism failures in how the system was configured; a
+        supervisor for intervention failures within their actual authority.
+        This lifecycle-stage mapping is developed further as an
+        accountability matrix elsewhere in this project's research.
+      </p>
+
+      <h2>Sources</h2>
+      <div class="sources">
+        <ul>
+          <li>Article 36, <em>Killer Robots: UK Government Policy on Fully Autonomous Weapons</em> (2013) — origin of "meaningful human control"</li>
+          <li>Horowitz M C and Scharre P, <em>Meaningful Human Control in Weapon Systems: A Primer</em> (CNAS Working Paper, 2015)</li>
+          <li>Matthias A, "The Responsibility Gap: Ascribing Responsibility for the Actions of Learning Automata" (2004) <em>Ethics and Information Technology</em></li>
+          <li>Kolt N, "Governing AI Agents" (2025) <em>Notre Dame Law Review</em></li>
+          <li>O'Keefe C and others, "Law-Following AI: Designing AI Agents to Obey Human Laws" (2025) <em>Fordham Law Review</em></li>
+          <li>Bottomley D and Thaldar D, "Liability for Harm Caused by AI in Healthcare: An Overview of the Core Legal Concepts" (2023) <em>Frontiers in Pharmacology</em></li>
+          <li>Digital Personal Data Protection Act 2023 (India), s 8(1)</li>
+        </ul>
+      </div>
+
+      <p class="closing-note">
+        This document is a condensed summary for a public research portfolio.
+        Full doctrinal argument and citation apparatus appear in the
+        accompanying thesis.
+      </p>
+
+    </article>
+
+    <p class="backlink"><a href="index.html">← Back to legal analysis</a></p>
+
+  </div>
+
+  <footer>
+    <p>
+      Code is MIT-licensed. Written content in <code>/docs</code> and
+      <code>/checklist</code> is Creative Commons Attribution 4.0 (CC BY 4.0).
+      See <a href="https://github.com/AdvAbel/agentic-ai-health-data-accountability/blob/main/CITATION.md" target="_blank" rel="noopener">CITATION.md</a>
+      for how to cite this work.
+    </p>
+  </footer>
+
+</div>
+
+</body>
+</html>
