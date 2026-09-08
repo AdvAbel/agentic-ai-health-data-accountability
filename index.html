@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic AI Accountability &amp; Health Data — Research Project</title>
+<meta name="description" content="Research project on legal accountability for agentic AI processing sensitive health data, with a practical risk self-assessment checklist. Part of an LL.M. thesis.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:      #ECEAE1;
+    --paper-deep: #E3E0D3;
+    --ink:        #1C1B17;
+    --ink-soft:   #4A4A42;
+    --muted:      #726F63;
+    --navy:       #29394F;
+    --accent:     #7C2E2E;
+    --accent-soft:#7C2E2E22;
+    --hairline:   #C9C4B2;
+    --radius:     2px;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --sans:  "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html{ background:var(--paper); }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{ color:var(--navy); text-decoration-color:var(--hairline); text-underline-offset:3px; }
+  a:hover{ color:var(--accent); text-decoration-color:var(--accent); }
+
+  .page{
+    max-width:840px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+
+  /* ---------- header ---------- */
+
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:16px;
+    padding:28px 0 20px;
+    font-family:var(--sans);
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  header a{ color:var(--muted); }
+  header a:hover{ color:var(--accent); }
+
+  .repo-path{ letter-spacing:0.01em; }
+
+  /* ---------- shared column with margin rule ---------- */
+
+  .sheet{
+    border-left:3px solid var(--accent);
+    padding-left:28px;
+  }
+
+  @media (max-width:600px){
+    .sheet{ border-left-width:2px; padding-left:16px; }
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero{ padding:8px 0 6px; }
+
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:700;
+    font-size:clamp(30px, 5vw, 44px);
+    line-height:1.14;
+    letter-spacing:-0.01em;
+    margin:0 0 10px;
+  }
+
+  .hero .dek{
+    font-family:var(--sans);
+    font-weight:500;
+    font-size:15px;
+    color:var(--ink-soft);
+    margin:0 0 22px;
+  }
+
+  .hero .lead{
+    max-width:62ch;
+    font-size:18px;
+    line-height:1.68;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  .wave{
+    display:block;
+    width:130px;
+    height:14px;
+    margin:26px 0 34px;
+    overflow:visible;
+  }
+
+  .wave path{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:2.5;
+    stroke-linecap:round;
+    stroke-dasharray:220;
+    stroke-dashoffset:220;
+    animation:draw 900ms 200ms ease-out forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .wave path{ animation:none; stroke-dashoffset:0; }
+  }
+
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  /* ---------- sections ---------- */
+
+  section{ padding:34px 0; }
+
+  section + section{ border-top:1px solid var(--hairline); }
+
+  h2{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:15px;
+    text-transform:none;
+    color:var(--ink);
+    margin:0 0 14px;
+    letter-spacing:0.01em;
+  }
+
+  section p{
+    max-width:64ch;
+    color:var(--ink-soft);
+    margin:0 0 12px;
+  }
+
+  section p:last-child{ margin-bottom:0; }
+
+  /* ---------- register list (docs / checklist) ---------- */
+
+  .entry{
+    display:flex;
+    gap:18px;
+    padding:20px 0;
+  }
+
+  .entry + .entry{ border-top:1px dashed var(--hairline); }
+
+  .entry .mark{
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:13px;
+    color:var(--accent);
+    padding-top:4px;
+    flex:0 0 auto;
+    width:28px;
+  }
+
+  .entry .body{ flex:1 1 auto; min-width:0; }
+
+  .entry h3{
+    font-family:var(--serif);
+    font-size:19px;
+    font-weight:600;
+    margin:0 0 6px;
+  }
+
+  .entry h3 a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--hairline); }
+  .entry h3 a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
+
+  .entry p{
+    font-size:16px;
+    color:var(--ink-soft);
+    max-width:58ch;
+    margin:0 0 8px;
+  }
+
+  .entry .go{
+    font-family:var(--sans);
+    font-size:13.5px;
+    font-weight:500;
+  }
+
+  /* ---------- note / scope box ---------- */
+
+  .note{
+    background:var(--paper-deep);
+    border:1px solid var(--hairline);
+    border-radius:var(--radius);
+    padding:20px 22px;
+  }
+
+  .note h2{ margin-bottom:10px; }
+
+  .note ul{
+    margin:0;
+    padding-left:20px;
+    color:var(--ink-soft);
+  }
+
+  .note li{ margin:0 0 8px; }
+  .note li:last-child{ margin-bottom:0; }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    padding:30px 0 10px;
+    font-family:var(--sans);
+    font-size:13.5px;
+    color:var(--muted);
+    line-height:1.7;
+  }
+
+  footer p{ margin:0 0 8px; max-width:70ch; }
+  footer a{ color:var(--muted); text-decoration-color:var(--hairline); }
+  footer a:hover{ color:var(--accent); text-decoration-color:var(--accent); }
+
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header>
+    <span class="repo-path">agentic-ai-health-data-accountability</span>
+    <a href="https://github.com/AdvAbel/agentic-ai-health-data-accountability" target="_blank" rel="noopener">Source on GitHub</a>
+  </header>
+
+  <div class="sheet">
+
+    <div class="hero">
+      <h1>Delegated Autonomy,<br>Retained Accountability</h1>
+      <p class="dek">Legal accountability for agentic AI systems processing sensitive health data</p>
+      <p class="lead">
+        A research project developed alongside an LL.M. thesis in data privacy and
+        information technology law. It asks what happens to a Data Fiduciary's
+        accountability under India's data protection framework when an autonomous,
+        agentic system — not a human — decides how health data gets processed.
+        This is a work in progress and will grow as the research does.
+      </p>
+      <svg class="wave" viewBox="0 0 130 14" aria-hidden="true">
+        <path d="M2 9 C 20 2, 34 13, 50 7 S 82 1, 98 8 S 118 12, 128 6" />
+      </svg>
+    </div>
+
+    <section>
+      <h2>Why this exists</h2>
+      <p>
+        Agentic AI systems don't just respond to instructions — they plan, retrieve
+        data, choose actions, and act with limited human input at each step. Data
+        protection law, in India and elsewhere, was written on the assumption that
+        a human or organisation fixes the purpose and means of processing in
+        advance.
+      </p>
+      <p>
+        This project traces where that assumption breaks down when the data in
+        question is a patient's health information, and offers a practical way to
+        check for the gap in a real deployment.
+      </p>
+    </section>
+
+    <section>
+      <h2>In this repository</h2>
+
+      <div class="entry">
+        <span class="mark">§1</span>
+        <div class="body">
+          <h3><a href="docs/">Legal analysis</a></h3>
+          <p>
+            The accountability chain, competing liability models, and a
+            clause-by-clause stress test against India's Digital Personal Data
+            Protection Act 2023 and Rules 2025 — with comparative notes against
+            the GDPR and EU AI Act.
+          </p>
+          <span class="go"><a href="docs/">Read the analysis →</a></span>
+        </div>
+      </div>
+
+      <div class="entry">
+        <span class="mark">§2</span>
+        <div class="body">
+          <h3><a href="checklist/">Self-assessment checklist</a></h3>
+          <p>
+            A short, practical checklist for spotting attribution and
+            human-oversight gaps in an agentic AI system that handles health
+            data.
+          </p>
+          <span class="go"><a href="checklist/">Try the checklist →</a></span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="note">
+        <h2>What this project is not</h2>
+        <ul>
+          <li>Not legal advice.</li>
+          <li>Not a certified compliance, audit, or regulatory tool.</li>
+          <li>Not backed by any user statistics, adoption figures, or case studies — none are claimed, and none should be assumed.</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>
+      Code is MIT-licensed. Written content in <code>/docs</code> and
+      <code>/checklist</code> is Creative Commons Attribution 4.0 (CC BY 4.0).
+      See <a href="https://github.com/AdvAbel/agentic-ai-health-data-accountability/blob/main/CITATION.md" target="_blank" rel="noopener">CITATION.md</a>
+      for how to cite this work.
+    </p>
+    <p>
+      This is an evolving academic research resource. Feedback and corrections
+      are welcome via
+      <a href="https://github.com/AdvAbel/agentic-ai-health-data-accountability/issues" target="_blank" rel="noopener">GitHub Issues</a>.
+    </p>
+  </footer>
+
+</div>
+
+</body>
+</html>
