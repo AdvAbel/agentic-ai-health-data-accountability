@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legal Analysis — Agentic AI &amp; Health Data Accountability</title>
+<meta name="description" content="Legal analysis write-ups: the accountability chain, liability models, and a clause-by-clause stress test against the DPDP Act.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:      #ECEAE1;
+    --paper-deep: #E3E0D3;
+    --ink:        #1C1B17;
+    --ink-soft:   #4A4A42;
+    --muted:      #726F63;
+    --navy:       #29394F;
+    --accent:     #7C2E2E;
+    --hairline:   #C9C4B2;
+    --radius:     2px;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --sans:  "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html{ background:var(--paper); }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--serif); font-size:17px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:var(--navy); text-decoration-color:var(--hairline); text-underline-offset:3px; }
+  a:hover{ color:var(--accent); text-decoration-color:var(--accent); }
+  .page{ max-width:840px; margin:0 auto; padding:0 24px 80px; }
+
+  header{
+    display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+    padding:28px 0 20px; font-family:var(--sans); font-size:13px; color:var(--muted);
+  }
+  header a{ color:var(--muted); }
+  header a:hover{ color:var(--accent); }
+  .crumb .sep{ margin:0 6px; color:var(--hairline); }
+  .crumb .current{ color:var(--ink-soft); }
+
+  .sheet{ border-left:3px solid var(--accent); padding-left:28px; }
+  @media (max-width:600px){ .sheet{ border-left-width:2px; padding-left:16px; } }
+
+  h1{
+    font-family:var(--serif); font-weight:700;
+    font-size:clamp(28px, 4.4vw, 38px); line-height:1.16;
+    letter-spacing:-0.01em; margin:8px 0 12px;
+  }
+  .lead{ max-width:62ch; font-size:17px; line-height:1.68; color:var(--ink-soft); margin:0 0 40px; }
+
+  .entry{ display:flex; gap:18px; padding:20px 0; }
+  .entry + .entry{ border-top:1px dashed var(--hairline); }
+  .entry .mark{
+    font-family:var(--sans); font-weight:600; font-size:13px; color:var(--accent);
+    padding-top:4px; flex:0 0 auto; width:28px;
+  }
+  .entry .body{ flex:1 1 auto; min-width:0; }
+  .entry h2{ font-family:var(--serif); font-size:19px; font-weight:600; margin:0 0 6px; }
+  .entry h2 a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--hairline); }
+  .entry h2 a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
+  .entry p{ font-size:16px; color:var(--ink-soft); max-width:58ch; margin:0 0 8px; }
+  .entry .go{ font-family:var(--sans); font-size:13.5px; font-weight:500; }
+
+  footer{
+    padding:40px 0 10px; font-family:var(--sans); font-size:13.5px; color:var(--muted); line-height:1.7;
+    border-top:1px solid var(--hairline); margin-top:20px;
+  }
+  footer p{ margin:0 0 8px; max-width:70ch; }
+  footer a{ color:var(--muted); text-decoration-color:var(--hairline); }
+  footer a:hover{ color:var(--accent); text-decoration-color:var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header>
+    <nav class="crumb">
+      <a href="../">agentic-ai-health-data-accountability</a>
+      <span class="sep">/</span>
+      <span class="current">docs</span>
+    </nav>
+    <a href="https://github.com/AdvAbel/agentic-ai-health-data-accountability" target="_blank" rel="noopener">Source on GitHub</a>
+  </header>
+
+  <div class="sheet">
+
+    <h1>Legal Analysis</h1>
+    <p class="lead">
+      Write-ups of the accountability and regulatory-gap analysis underlying
+      this project's research. Each document is a condensed, citation-checked
+      version of material developed for the accompanying LL.M. thesis.
+    </p>
+
+    <div class="entry">
+      <span class="mark">§1</span>
+      <div class="body">
+        <h2><a href="dpdp-act-stress-test.html">DPDP Act Stress Test</a></h2>
+        <p>Traces one agentic AI scenario clause-by-clause through the Digital Personal Data Protection Act 2023 and Rules 2025.</p>
+        <span class="go"><a href="dpdp-act-stress-test.html">Read →</a></span>
+      </div>
+    </div>
+
+    <div class="entry">
+      <span class="mark">§2</span>
+      <div class="body">
+        <h2><a href="liability-models-and-meaningful-human-control.html">Liability Models and Meaningful Human Control</a></h2>
+        <p>Evaluates five competing liability models and adapts meaningful human control as a testable standard for health-data oversight.</p>
+        <span class="go"><a href="liability-models-and-meaningful-human-control.html">Read →</a></span>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>
+      Code is MIT-licensed. Written content in <code>/docs</code> and
+      <code>/checklist</code> is Creative Commons Attribution 4.0 (CC BY 4.0).
+      See <a href="https://github.com/AdvAbel/agentic-ai-health-data-accountability/blob/main/CITATION.md" target="_blank" rel="noopener">CITATION.md</a>
+      for how to cite this work.
+    </p>
+    <p>
+      This is an evolving academic research resource. Feedback and corrections
+      are welcome via
+      <a href="https://github.com/AdvAbel/agentic-ai-health-data-accountability/issues" target="_blank" rel="noopener">GitHub Issues</a>.
+    </p>
+  </footer>
+
+</div>
+
+</body>
+</html>
